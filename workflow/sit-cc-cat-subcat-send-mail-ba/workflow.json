@@ -1,0 +1,55 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "Send_message_to_cc-cat-subcat-send-mail-ba-queue": {
+                "inputs": {
+                    "parameters": {
+                        "entityName": "sit-cc-cat-subcat-send-mail-ba-queue",
+                        "message": {
+                            "contentData": "@base64(utcNow())",
+                            "contentType": "text/plain"
+                        }
+                    },
+                    "serviceProviderConfiguration": {
+                        "connectionName": "serviceBus",
+                        "operationId": "sendMessage",
+                        "serviceProviderId": "/serviceProviders/serviceBus"
+                    }
+                },
+                "runAfter": {},
+                "type": "ServiceProvider"
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {},
+        "triggers": {
+            "change-cat-subcat-send-mail-ba-daily": {
+                "recurrence": {
+                    "frequency": "Week",
+                    "interval": 1,
+                    "schedule": {
+                        "hours": [
+                            "0"
+                        ],
+                        "minutes": [
+                            0
+                        ],
+                        "weekDays": [
+                            "Monday",
+                            "Tuesday",
+                            "Wednesday",
+                            "Thursday",
+                            "Friday",
+                            "Saturday",
+                            "Sunday"
+                        ]
+                    },
+                    "timeZone": "SE Asia Standard Time"
+                },
+                "type": "Recurrence"
+            }
+        }
+    },
+    "kind": "Stateful"
+}

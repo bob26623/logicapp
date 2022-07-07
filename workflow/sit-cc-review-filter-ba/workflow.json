@@ -1,0 +1,121 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "Send_message__to_cc-review-filter-ba-new-recurring-queue": {
+                "inputs": {
+                    "parameters": {
+                        "entityName": "sit-cc-review-filter-ba-new-recurring-queue",
+                        "message": {
+                            "contentData": "@base64(concat('utc',utcNow()))",
+                            "contentType": "text/plain"
+                        }
+                    },
+                    "serviceProviderConfiguration": {
+                        "connectionName": "serviceBus",
+                        "operationId": "sendMessage",
+                        "serviceProviderId": "/serviceProviders/serviceBus"
+                    }
+                },
+                "runAfter": {
+                    "Send_message_to_cc-review-filter-ba-queue": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "ServiceProvider"
+            },
+            "Send_message_to_cc-review-filter-ba-old-queue": {
+                "inputs": {
+                    "parameters": {
+                        "entityName": "sit-cc-review-filter-ba-old-queue",
+                        "message": {
+                            "contentData": "@base64(utcNow())",
+                            "contentType": "text/plain"
+                        }
+                    },
+                    "serviceProviderConfiguration": {
+                        "connectionName": "serviceBus",
+                        "operationId": "sendMessage",
+                        "serviceProviderId": "/serviceProviders/serviceBus"
+                    }
+                },
+                "runAfter": {
+                    "Send_message__to_cc-review-filter-ba-new-recurring-queue": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "ServiceProvider"
+            },
+            "Send_message_to_cc-review-filter-ba-old-recurring-queue": {
+                "inputs": {
+                    "parameters": {
+                        "entityName": "sit-cc-review-filter-ba-old-recurring-queue",
+                        "message": {
+                            "contentData": "@base64(utcNow())",
+                            "contentType": "text/plain"
+                        }
+                    },
+                    "serviceProviderConfiguration": {
+                        "connectionName": "serviceBus",
+                        "operationId": "sendMessage",
+                        "serviceProviderId": "/serviceProviders/serviceBus"
+                    }
+                },
+                "runAfter": {
+                    "Send_message_to_cc-review-filter-ba-old-queue": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "ServiceProvider"
+            },
+            "Send_message_to_cc-review-filter-ba-queue": {
+                "inputs": {
+                    "parameters": {
+                        "entityName": "sit-cc-review-filter-ba-queue",
+                        "message": {
+                            "contentData": "@base64(utcNow())",
+                            "contentType": "text/plain"
+                        }
+                    },
+                    "serviceProviderConfiguration": {
+                        "connectionName": "serviceBus",
+                        "operationId": "sendMessage",
+                        "serviceProviderId": "/serviceProviders/serviceBus"
+                    }
+                },
+                "runAfter": {},
+                "type": "ServiceProvider"
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {},
+        "triggers": {
+            "review-filter-ba-daily": {
+                "recurrence": {
+                    "frequency": "Week",
+                    "interval": 1,
+                    "schedule": {
+                        "hours": [
+                            "0"
+                        ],
+                        "minutes": [
+                            0
+                        ],
+                        "weekDays": [
+                            "Monday",
+                            "Tuesday",
+                            "Wednesday",
+                            "Thursday",
+                            "Friday",
+                            "Saturday",
+                            "Sunday"
+                        ]
+                    },
+                    "timeZone": "SE Asia Standard Time"
+                },
+                "type": "Recurrence"
+            }
+        }
+    },
+    "kind": "Stateful"
+}

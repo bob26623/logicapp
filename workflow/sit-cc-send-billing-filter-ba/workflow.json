@@ -1,0 +1,38 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "Send_message_to_cc-send-billing-filter-ba-queue": {
+                "inputs": {
+                    "parameters": {
+                        "entityName": "sit-cc-send-billing-filter-ba-queue",
+                        "message": {
+                            "contentData": "@base64(utcNow())",
+                            "contentType": "text/plain"
+                        }
+                    },
+                    "serviceProviderConfiguration": {
+                        "connectionName": "serviceBus",
+                        "operationId": "sendMessage",
+                        "serviceProviderId": "/serviceProviders/serviceBus"
+                    }
+                },
+                "runAfter": {},
+                "type": "ServiceProvider"
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {},
+        "triggers": {
+            "cc-send-billing-filter-ba-daily": {
+                "recurrence": {
+                    "frequency": "Minute",
+                    "interval": 3,
+                    "timeZone": "SE Asia Standard Time"
+                },
+                "type": "Recurrence"
+            }
+        }
+    },
+    "kind": "Stateful"
+}
